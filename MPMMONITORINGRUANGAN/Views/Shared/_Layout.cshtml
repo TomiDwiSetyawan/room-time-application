@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+
+@{
+    ViewBag.Company = "PT. Mitra Pinasthika Mulia";
+    ViewBag.ApplicationGroup = "IT DEP";
+}
+
+@{
+    MPMLibrary.NET.Mvc.UserSession userSession = (MPMLibrary.NET.Mvc.UserSession)HttpContext.Current.Session[((MPMLibrary.NET.Mvc.States.ApplicationState)System.Web.HttpContext.Current.Application.Get("APPLICATION")).UNIQUE_KEY];
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="@Url.Content("~/Content/Icons")">
+    <link rel="icon" type="image/png" sizes="32x32" href="@Url.Content("~/Content/Icons/favicon-16x16.png")">
+    <link rel="icon" type="image/png" sizes="16x16" href="@Url.Content("~/Content/Icons/favicon-32x32.png")">
+
+    <link rel="mask-icon" href="@Url.Content("~/Content/Icons/safari-pinned-tab.svg")" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel='stylesheet' href="@Url.Content("~/Content/CSS/custom.css")" />
+    <link rel='stylesheet' href='@Url.Content("~/Content/CSS/bootstrap-icons.css")' />
+    <link rel='stylesheet' href='@Url.Content("~/Content/CSS/styles.css")' />
+    <link rel='stylesheet' href='@Url.Content("~/Content/CSS/dx.material.custom-mpm.css")' />
+
+    <script>var base_url_home = window.location.protocol + "//" + window.location.host + '@Url.Content("~")';</script>
+</head>
+<body class="min-vh-100 d-flex flex-column justify-content-between">
+    <div>
+        @Html.Partial("_Header", userSession)
+
+        <div class="loadpanel"></div>
+        <div id="toast"></div>
+        <div class="container mt-4 mb-5">
+            @RenderBody()
+        </div>
+    </div>
+
+    @Html.Partial("_Footer")
+
+
+    @*<div class="d-none url" data-url-get-commits="@Url.Action("GetCommit", "App")"></div>
+    <div class="d-none url" data-url-get-projects="@Url.Action("GetProjects", "App")"></div>
+    <div class="d-none url" data-url-get-repos="@Url.Action("GetRepositories", "App")"></div>*@
+
+
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/dx.all.js")"></script>
+    <script src="@Url.Content("~/Scripts/exceljs.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/FileSaver.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/common.js")"></script>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

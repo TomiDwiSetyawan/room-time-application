@@ -1,0 +1,29 @@
+﻿
+
+@model MPMLibrary.NET.Mvc.UserSession
+
+<div class="border-top shadow-sm border-primary border-5 p-1 pb-4">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <img src="@Url.Content("~/Content/icons/IconMpm.svg")" alt="icon mpm" style="height: 30px;">
+            </div>
+            <div>
+                <small>
+                    <b>@ViewBag.ApplicationGroup</b> | @User.Identity.Name | @Model.DATAAREA_ID
+                    @if (Model.MAINDEALER_ID != null)
+                    {
+                        @: -
+                        @Model.MAINDEALER_ID
+                    }
+                    @if (Model.SITE_ID_MAPPING != null)
+                    {
+                        @: -
+                        @Model.SITE_ID_MAPPING
+                    }
+                </small>
+                @*<small>MPM-MOTOR\gundala</small> | <small>mml - HRGA - DIVFLP/0000000000005</small>*@
+            </div>
+        </div>
+    </div>
+</div>
