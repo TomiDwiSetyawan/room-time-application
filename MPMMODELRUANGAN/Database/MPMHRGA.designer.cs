@@ -22,6 +22,7 @@ namespace MPMMODELRUANGAN.Database
 	using System;
 	
 	
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="MPMHRGA")]
 	public partial class MPMHRGADataContext : System.Data.Linq.DataContext
 	{
 		
@@ -29,14 +30,17 @@ namespace MPMMODELRUANGAN.Database
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-		#endregion
-
+    partial void InsertMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
+    partial void UpdateMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
+    partial void DeleteMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
+    #endregion
+		
 		public MPMHRGADataContext() :
 				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MPMHRGA"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
-
+		
 		public MPMHRGADataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -59,6 +63,244 @@ namespace MPMMODELRUANGAN.Database
 				base(connection, mappingSource)
 		{
 			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<MPMINFRUANGANHDR> MPMINFRUANGANHDRs
+		{
+			get
+			{
+				return this.GetTable<MPMINFRUANGANHDR>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MPMINFRUANGANHDR")]
+	public partial class MPMINFRUANGANHDR : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _IDTHRUANGAN;
+		
+		private string _text;
+		
+		private System.Nullable<System.DateTime> _startDate;
+		
+		private System.Nullable<System.DateTime> _endDate;
+		
+		private string _CREATEBY;
+		
+		private System.Nullable<System.DateTime> _CREATEDATE;
+		
+		private string _MODIFBY;
+		
+		private System.Nullable<System.DateTime> _MODIFDATE;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDTHRUANGANChanging(System.Guid value);
+    partial void OnIDTHRUANGANChanged();
+    partial void OntextChanging(string value);
+    partial void OntextChanged();
+    partial void OnstartDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnstartDateChanged();
+    partial void OnendDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnendDateChanged();
+    partial void OnCREATEBYChanging(string value);
+    partial void OnCREATEBYChanged();
+    partial void OnCREATEDATEChanging(System.Nullable<System.DateTime> value);
+    partial void OnCREATEDATEChanged();
+    partial void OnMODIFBYChanging(string value);
+    partial void OnMODIFBYChanged();
+    partial void OnMODIFDATEChanging(System.Nullable<System.DateTime> value);
+    partial void OnMODIFDATEChanged();
+    #endregion
+		
+		public MPMINFRUANGANHDR()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDTHRUANGAN", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid IDTHRUANGAN
+		{
+			get
+			{
+				return this._IDTHRUANGAN;
+			}
+			set
+			{
+				if ((this._IDTHRUANGAN != value))
+				{
+					this.OnIDTHRUANGANChanging(value);
+					this.SendPropertyChanging();
+					this._IDTHRUANGAN = value;
+					this.SendPropertyChanged("IDTHRUANGAN");
+					this.OnIDTHRUANGANChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_text", DbType="VarChar(50)")]
+		public string text
+		{
+			get
+			{
+				return this._text;
+			}
+			set
+			{
+				if ((this._text != value))
+				{
+					this.OntextChanging(value);
+					this.SendPropertyChanging();
+					this._text = value;
+					this.SendPropertyChanged("text");
+					this.OntextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_startDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> startDate
+		{
+			get
+			{
+				return this._startDate;
+			}
+			set
+			{
+				if ((this._startDate != value))
+				{
+					this.OnstartDateChanging(value);
+					this.SendPropertyChanging();
+					this._startDate = value;
+					this.SendPropertyChanged("startDate");
+					this.OnstartDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_endDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> endDate
+		{
+			get
+			{
+				return this._endDate;
+			}
+			set
+			{
+				if ((this._endDate != value))
+				{
+					this.OnendDateChanging(value);
+					this.SendPropertyChanging();
+					this._endDate = value;
+					this.SendPropertyChanged("endDate");
+					this.OnendDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEBY", DbType="VarChar(50)")]
+		public string CREATEBY
+		{
+			get
+			{
+				return this._CREATEBY;
+			}
+			set
+			{
+				if ((this._CREATEBY != value))
+				{
+					this.OnCREATEBYChanging(value);
+					this.SendPropertyChanging();
+					this._CREATEBY = value;
+					this.SendPropertyChanged("CREATEBY");
+					this.OnCREATEBYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CREATEDATE
+		{
+			get
+			{
+				return this._CREATEDATE;
+			}
+			set
+			{
+				if ((this._CREATEDATE != value))
+				{
+					this.OnCREATEDATEChanging(value);
+					this.SendPropertyChanging();
+					this._CREATEDATE = value;
+					this.SendPropertyChanged("CREATEDATE");
+					this.OnCREATEDATEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFBY", DbType="VarChar(50)")]
+		public string MODIFBY
+		{
+			get
+			{
+				return this._MODIFBY;
+			}
+			set
+			{
+				if ((this._MODIFBY != value))
+				{
+					this.OnMODIFBYChanging(value);
+					this.SendPropertyChanging();
+					this._MODIFBY = value;
+					this.SendPropertyChanged("MODIFBY");
+					this.OnMODIFBYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> MODIFDATE
+		{
+			get
+			{
+				return this._MODIFDATE;
+			}
+			set
+			{
+				if ((this._MODIFDATE != value))
+				{
+					this.OnMODIFDATEChanging(value);
+					this.SendPropertyChanging();
+					this._MODIFDATE = value;
+					this.SendPropertyChanged("MODIFDATE");
+					this.OnMODIFDATEChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

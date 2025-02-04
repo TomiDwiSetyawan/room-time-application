@@ -1,1 +1,12 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MPMHRGA">
+  <DataContextMoniker Name="/MPMHRGADataContext" />
+  <nestedChildShapes>
+    <classShape Id="28bb0a88-bc9c-48a9-9591-489935285b84" isExpanded="false" absoluteBounds="2.375, 1.875, 2, 0.45">
+      <DataClassMoniker Name="/MPMHRGADataContext/MPMINFRUANGANHDR" />
+      <nestedChildShapes>
+        <elementListCompartment Id="a9ab6f2f-dd8c-41f9-9aa7-353d38bf8785" absoluteBounds="2.3899999999999997, 2.335, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

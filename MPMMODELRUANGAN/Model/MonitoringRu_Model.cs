@@ -13,24 +13,16 @@ namespace MPMMODELRUANGAN.Model
 {
     public class MonitoringRu_Model : BaseModel
     {
+
+        public MPMHRGADataContext ServiceContext { get; set; }
         MonitoringRU_OBJ MonitoringRU_OBJ = new MonitoringRU_OBJ();
         public MonitoringRu_Model() : base()
         {
+            ServiceContext = new MPMHRGADataContext();
             MonitoringRU_OBJ.Context = (MPMHRGADataContext)Context;
         }
 
-        //public List<string> ListJabatan()
-        //{
-        //    try
-        //    {
-        //        return MonitoringRU_OBJ.();
-        //    }
-        //    catch (MPMException E)
-        //    {
-        //        throw new MPMException(E.Message);
-        //    }
-        //}
-
+       
         public List<MonitoringRU_REC> ListDataSchedule()
         {
         //    int statusconv = datastatus == "Draft" ? 0 :
@@ -60,6 +52,44 @@ namespace MPMMODELRUANGAN.Model
                 }
             
         }
+
+        public string insertDataScheduls(MonitoringRU_REC item, string user)
+        {
+            try
+            {
+                var res = "";
+                //var isExit = ServiceContext.MPMAMORTISATIONHDRs.Any(x => x.MPMAMORTISATIONHDRID == item.MPMAMORTISATIONHDRID).ToString();
+                //if (isExit == "False")
+                //{
+                BeginTransaction();
+                ServiceContext.CommandTimeout = 3200;
+                var itemREC = new MPMINFRUANGANHDR();
+                itemREC.IDTHRUANGAN = Guid.NewGuid();
+                itemREC.text = item.text;
+                itemREC.startDate = item.startDate;
+                itemREC.endDate = item.endDate;
+                itemREC.CREATEDATE = item.CREATEDATE;
+                itemREC.CREATEBY = user;
+                ServiceContext.MPMINFRUANGANHDRs.InsertOnSubmit(itemREC);
+                ServiceContext.SubmitChanges();
+                Commit();
+
+                res = "Berhasil Insert Data";
+
+                return res;
+                //}
+                //else
+                //{
+                //    return "Gagal Insert Data";
+                //}
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
 
         //public void UpdateDataEntry(mpmaccpphinsentifhdr item, Guid idinsentif, string jabatan, string transaksi, string company, string departemen, string pasalpajakpph, string coapph, string deskripsipph, string coa, string deskripsicoa, string bankaccount, string deskripsi, int tahun, int bulan, string tanggalcon, string jurnalnumber, string jurnalvoucher, int status, string user)
         //{

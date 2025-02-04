@@ -51,5 +51,27 @@ namespace MPMMONITORINGRUANGAN.Controllers.App
             }
         }
 
+        public JsonResult AddDataHeaderSchedule(MonitoringRU_REC payload)
+        {
+            try
+            {
+                var user = UserSession == null ? "test" : UserSession.NPK;
+                var result = Model.insertDataScheduls(payload, user);
+                return Json(new
+                {
+                    error = false,
+                    result
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = e.Message
+                });
+            }
+        }
+
     }
 }

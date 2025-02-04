@@ -43,8 +43,8 @@
                     var form = e.form;
                     form.beginUpdate();
 
-                    form.option("colCountByScreen", { lg: 1, xs: 1 });
-                    form.getEditor("repeat").option("value", false); 
+                    //form.option("colCountByScreen", { lg: 1, xs: 1 });
+                    //form.getEditor("repeat").option("value", false); 
                     form.itemOption("mainGroup.allDay", "visible", true); 
                     form.itemOption("mainGroup.repeat", "visible", false);
                     //form.itemOption("mainGroup.description", "disabled", true);
@@ -53,7 +53,14 @@
                     form.endUpdate();
                 },
                 onAppointmentAdded(e) {
-                    showToast('Added', e.appointmentData.text, 'success');
+                    console.log(e)
+                    const { appointmentData: { allDay, description, endDate, startDate, text } } = e
+
+                    const payload = { allDay, description, endDate, startDate, text }
+                    console.log(payload)
+
+                    addDataSchedule(payload)
+                    //showToast('Added', e.appointmentData.text, 'success');
                 },
                 onAppointmentUpdated(e) {
                     showToast('Updated', e.appointmentData.text, 'info');
@@ -136,6 +143,55 @@ async function ListDataSch() {
 
 
 
+async function addDataSchedule(payload) {
+    try {
+        Swal.fire({
+                title: 'Informasi',
+                text: "Data berhasil ditambahkan.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    //renderHeaderGrid([])
+                }
+            });
+        //const url = `${base_url_home}app/AddDataHeaderAmortisasi`
+        //const result = await callAjax(url, payload)
+        //console.log(result)
+        //if (result.result == 'Berhasil Insert Data') {
+        //    Swal.fire({
+        //        title: 'Informasi',
+        //        text: "Data berhasil ditambahkan.",
+        //        icon: 'success',
+        //        confirmButtonColor: '#3085d6',
+        //        confirmButtonText: 'OK'
+        //    }).then((result) => {
+
+        //        if (result.isConfirmed) {
+        //            renderHeaderGrid([])
+        //        }
+        //    });
+        //}
+        //else {
+        //  Swal.fire({
+        //    title: 'Informasi',
+        //    text: "$KodeTransaksi dengan $Kategori already exist !.",
+        //    icon: 'warning',
+        //    confirmButtonColor: '#3085d6',
+        //    confirmButtonText: 'OK'
+        //  }).then((result) => {
+
+        //    if (result.isConfirmed) {
+        //      renderGridMasterSetting();
+        //    }
+        //  });
+        //}
+    } catch (e) {
+        throw (e)
+    }
+}
 //const data = [
 //    {
 //        text: 'Website Re-Design Plan',

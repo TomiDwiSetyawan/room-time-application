@@ -161,6 +161,7 @@
     <Content Include="Scripts\exceljs.min.js" />
     <Content Include="Scripts\FileSaver.min.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\sweetalert2.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
