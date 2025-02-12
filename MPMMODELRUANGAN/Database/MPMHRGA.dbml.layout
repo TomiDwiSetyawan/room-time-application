@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MPMHRGA">
   <DataContextMoniker Name="/MPMHRGADataContext" />
   <nestedChildShapes>
-    <classShape Id="28bb0a88-bc9c-48a9-9591-489935285b84" isExpanded="false" absoluteBounds="2.375, 1.875, 2, 0.45">
+    <classShape Id="b4733b8e-4098-4c07-8998-170aea850881" absoluteBounds="1.125, 0.75, 2, 2.5401025390625">
       <DataClassMoniker Name="/MPMHRGADataContext/MPMINFRUANGANHDR" />
       <nestedChildShapes>
-        <elementListCompartment Id="a9ab6f2f-dd8c-41f9-9aa7-353d38bf8785" absoluteBounds="2.3899999999999997, 2.335, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d371cd25-3a6c-47f4-8ef8-4a74c53e2367" absoluteBounds="1.1399999999999997, 1.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

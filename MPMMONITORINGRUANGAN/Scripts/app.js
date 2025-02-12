@@ -53,20 +53,32 @@
                     form.endUpdate();
                 },
                 onAppointmentAdded(e) {
-                    console.log(e)
+                    //console.log(e)
                     const { appointmentData: { allDay, description, endDate, startDate, text } } = e
 
                     const payload = { allDay, description, endDate, startDate, text }
-                    console.log(payload)
+                    //console.log(payload)
 
                     addDataSchedule(payload)
                     //showToast('Added', e.appointmentData.text, 'success');
                 },
                 onAppointmentUpdated(e) {
-                    showToast('Updated', e.appointmentData.text, 'info');
+                    console.log(e)
+                    const { appointmentData: { IDTHRUANGAN, allDay, description, endDate, startDate, text } } = e
+
+                    const payload = { IDTHRUANGAN, allDay, description, endDate, startDate, text }
+                    //console.log(payload)
+
+                    updateDataSchedule(payload)
                 },
                 onAppointmentDeleted(e) {
-                    showToast('Deleted', e.appointmentData.text, 'warning');
+                    console.log(e)
+                    const { appointmentData: { IDTHRUANGAN, description, endDate, startDate, text } } = e
+
+                    const payload = { IDTHRUANGAN, description, endDate, startDate, text }
+                    //console.log(payload)
+
+                    deleteDataSchedule(payload)
                 },
        
             }).dxScheduler('instance');
@@ -143,9 +155,15 @@ async function ListDataSch() {
 
 
 
+
+
 async function addDataSchedule(payload) {
     try {
-        Swal.fire({
+        const url = `${base_url_home}app/AddDataHeaderSchedule`
+        const result = await callAjax(url, payload)
+        console.log(result)
+        if (result.result == 'Berhasil Insert Data') {
+            Swal.fire({
                 title: 'Informasi',
                 text: "Data berhasil ditambahkan.",
                 icon: 'success',
@@ -154,94 +172,101 @@ async function addDataSchedule(payload) {
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    //renderHeaderGrid([])
+                    renderHeaderGrid([])
                 }
             });
-        //const url = `${base_url_home}app/AddDataHeaderAmortisasi`
-        //const result = await callAjax(url, payload)
-        //console.log(result)
-        //if (result.result == 'Berhasil Insert Data') {
-        //    Swal.fire({
-        //        title: 'Informasi',
-        //        text: "Data berhasil ditambahkan.",
-        //        icon: 'success',
-        //        confirmButtonColor: '#3085d6',
-        //        confirmButtonText: 'OK'
-        //    }).then((result) => {
+        }
+        else {
+          Swal.fire({
+            title: 'Informasi',
+            text: "Gagal Insert !.",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          }).then((result) => {
 
-        //        if (result.isConfirmed) {
-        //            renderHeaderGrid([])
-        //        }
-        //    });
-        //}
-        //else {
-        //  Swal.fire({
-        //    title: 'Informasi',
-        //    text: "$KodeTransaksi dengan $Kategori already exist !.",
-        //    icon: 'warning',
-        //    confirmButtonColor: '#3085d6',
-        //    confirmButtonText: 'OK'
-        //  }).then((result) => {
-
-        //    if (result.isConfirmed) {
-        //      renderGridMasterSetting();
-        //    }
-        //  });
-        //}
+            if (result.isConfirmed) {
+              renderGridMasterSetting();
+            }
+          });
+        }
     } catch (e) {
         throw (e)
     }
 }
-//const data = [
-//    {
-//        text: 'Website Re-Design Plan',
-//        startDate: new Date('2025-02-03T08:00:00.000+07:00'),
-//        endDate: new Date('2025-02-03T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Book Flights to San Fran for Sales Trip',
-//        startDate: new Date('2025-02-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-02-29T09:00:00.000+07:00'),
-//        allDay: true,
-//    }, {
-//        text: 'Install New Router in Dev Room',
-//        startDate: new Date('2025-02-11T08:00:00.000+07:00'),
-//        endDate: new Date('2025-02-11T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Approve Personal Computer Upgrade Plan',
-//        startDate: new Date('2025-09-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-09-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Final Budget Review',
-//        startDate: new Date('2025-08-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-08-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'New Brochures',
-//        startDate: new Date('2025-10-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-10-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Install New Database',
-//        startDate: new Date('2025-12-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-12-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Approve New Online Marketing Strategy',
-//        startDate: new Date('2025-01-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-01-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'Upgrade Personal Computers',
-//        startDate: new Date('2025-11-29T08:00:00.000+07:00'),
-//        endDate: new Date('2025-11-29T09:00:00.000+07:00'),
-//    }, {
-//        text: 'SDMS Developer Meeting',
-//        startDate: new Date('2025-04-29T08:00:00.000+07:00'), 
-//        endDate: new Date('2025-04-29T09:00:00.000+07:00'), 
-//    }, {
-//        text: 'IT Developer Mulia',
-//        startDate: new Date('2025-04-29T09:00:00.000+07:00'),
-//        endDate: new Date('2025-04-29T09:30:00.000+07:00'),
-//        //allDay: true,
-//    }, {
-//        text: 'Prepare 2025 Master Plan',
-//        startDate: new Date('2025-04-29T14:00:00.000+07:00'),
-//        endDate: new Date('2025-04-29T17:00:00.000+07:00'),
-//    },
-//];
+
+async function deleteDataSchedule(payload) {
+    try {
+        const url = `${base_url_home}app/deleteDataHeaderSchedule`
+        const result = await callAjax(url, payload)
+        console.log(result)
+        if (result.result == 'Berhasil Hapus Data') {
+            Swal.fire({
+                title: 'Informasi',
+                text: "Data berhasil dihapus.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    renderHeaderGrid([])
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                title: 'Informasi',
+                text: "Gagal hapus data !.",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    renderGridMasterSetting();
+                }
+            });
+        }
+    } catch (e) {
+        throw (e)
+    }
+}
+
+async function updateDataSchedule(payload) {
+    try {
+        const url = `${base_url_home}app/updateDataHeaderSchedule`
+        const result = await callAjax(url, payload)
+        console.log(result)
+        if (result.result == 'Berhasil Update Data') {
+            Swal.fire({
+                title: 'Informasi',
+                text: "Data berhasil diupdate.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    renderHeaderGrid([])
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                title: 'Informasi',
+                text: "Gagal update !.",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    renderGridMasterSetting();
+                }
+            });
+        }
+    } catch (e) {
+        throw (e)
+    }
+}

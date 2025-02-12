@@ -53,13 +53,13 @@
       <HintPath>packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="MPMLibrary.NET">
-      <HintPath>..\..\..\..\DLL\MPMLibrary.NET.dll</HintPath>
+      <HintPath>..\..\..\..\..\2024 - Mater Plan (DONE)\04-09-2024 PPH (Upah Insentif)\Code AXT\MPMACCPPH\MPMENTRYINSENTIF\bin\MPMLibrary.NET.dll</HintPath>
     </Reference>
     <Reference Include="MPMSecurityFilter">
-      <HintPath>..\..\..\..\DLL\MPMSecurityFilter.dll</HintPath>
+      <HintPath>..\..\..\..\..\2024 - Mater Plan (DONE)\04-09-2024 PPH (Upah Insentif)\Code AXT\MPMACCPPH\MPMENTRYINSENTIF\bin\MPMSecurityFilter.dll</HintPath>
     </Reference>
     <Reference Include="MPMSystemModel">
-      <HintPath>..\..\..\..\DLL\MPMSystemModel.dll</HintPath>
+      <HintPath>..\..\..\..\..\2024 - Mater Plan (DONE)\04-09-2024 PPH (Upah Insentif)\Code AXT\MPMACCPPH\MPMENTRYINSENTIF\bin\MPMSystemModel.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -192,6 +192,9 @@
       <Project>{8e4a605c-2e50-4dd1-900d-bebd669410d3}</Project>
       <Name>MPMMODELRUANGAN</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

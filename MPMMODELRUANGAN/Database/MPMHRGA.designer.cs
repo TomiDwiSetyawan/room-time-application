@@ -84,6 +84,8 @@ namespace MPMMODELRUANGAN.Database
 		
 		private string _text;
 		
+		private string _description;
+		
 		private System.Nullable<System.DateTime> _startDate;
 		
 		private System.Nullable<System.DateTime> _endDate;
@@ -104,6 +106,8 @@ namespace MPMMODELRUANGAN.Database
     partial void OnIDTHRUANGANChanged();
     partial void OntextChanging(string value);
     partial void OntextChanged();
+    partial void OndescriptionChanging(string value);
+    partial void OndescriptionChanged();
     partial void OnstartDateChanging(System.Nullable<System.DateTime> value);
     partial void OnstartDateChanged();
     partial void OnendDateChanging(System.Nullable<System.DateTime> value);
@@ -159,6 +163,26 @@ namespace MPMMODELRUANGAN.Database
 					this._text = value;
 					this.SendPropertyChanged("text");
 					this.OntextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_description", DbType="VarChar(250)")]
+		public string description
+		{
+			get
+			{
+				return this._description;
+			}
+			set
+			{
+				if ((this._description != value))
+				{
+					this.OndescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._description = value;
+					this.SendPropertyChanged("description");
+					this.OndescriptionChanged();
 				}
 			}
 		}

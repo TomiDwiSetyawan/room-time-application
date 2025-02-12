@@ -9,8 +9,8 @@ namespace MPMMONITORINGRUANGAN
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new MPMDevAuthorizeAttribute("mpmwisspg"));
             filters.Add(new MPMActionFilterAttribute());
+            filters.Add(new MPMAuthorizeAttribute("mpmmonitoringruangan")); //jangan lupa diganti
         }
     }
 }

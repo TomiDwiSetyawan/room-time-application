@@ -73,5 +73,47 @@ namespace MPMMONITORINGRUANGAN.Controllers.App
             }
         }
 
+        public JsonResult deleteDataHeaderSchedule(MonitoringRU_REC payload)
+        {
+            try
+            {
+                var result = Model.deleteDataScheduls(payload);
+                return Json(new
+                {
+                    error = false,
+                    result
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = e.Message
+                });
+            }
+        }
+
+        public JsonResult updateDataHeaderSchedule(MonitoringRU_REC payload)
+        {
+            try
+            {
+                var user = UserSession == null ? "test" : UserSession.NPK;
+                var result = Model.updateDataScheduls(payload, user);
+                return Json(new
+                {
+                    error = false,
+                    result
+                });
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    error = true,
+                    message = e.Message
+                });
+            }
+        }
     }
 }

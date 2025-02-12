@@ -38,7 +38,7 @@ namespace MPMMODELRUANGAN.Model
                    
                     Context.CommandTimeout = 180;
                     var query = @" 
-                               SELECT  IDTHRUANGAN,text, startDate, endDate, CREATEBY, CREATEDATE FROM MPMHRGA.dbo.MPMINFRUANGANHDR
+                               SELECT  IDTHRUANGAN,text,description, startDate, endDate, CREATEBY, CREATEDATE FROM MPMHRGA.dbo.MPMINFRUANGANHDR
                             ";
                     query = string.Format(query);
                     var result = Context.ExecuteQuery<MonitoringRU_REC>(query);
@@ -66,9 +66,10 @@ namespace MPMMODELRUANGAN.Model
                 var itemREC = new MPMINFRUANGANHDR();
                 itemREC.IDTHRUANGAN = Guid.NewGuid();
                 itemREC.text = item.text;
+                itemREC.description = item.description;
                 itemREC.startDate = item.startDate;
                 itemREC.endDate = item.endDate;
-                itemREC.CREATEDATE = item.CREATEDATE;
+                itemREC.CREATEDATE = DateTime.Now;
                 itemREC.CREATEBY = user;
                 ServiceContext.MPMINFRUANGANHDRs.InsertOnSubmit(itemREC);
                 ServiceContext.SubmitChanges();
@@ -90,7 +91,71 @@ namespace MPMMODELRUANGAN.Model
             }
         }
 
+        public string deleteDataScheduls(MonitoringRU_REC item)
+        {
+            try
+            {
 
+                Context.CommandTimeout = 180;
+                var query = $@" 
+                               DELETE FROM MPMHRGA.dbo.MPMINFRUANGANHDR
+                               WHERE IDTHRUANGAN =  '{item.IDTHRUANGAN}'
+                            ";
+                query = string.Format(query);
+                var result = Context.ExecuteQuery<MonitoringRU_REC>(query);
+                var res = "";
+                res = "Berhasil Hapus Data";
+
+                return res;
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
+
+
+        public string updateDataScheduls(MonitoringRU_REC item, string user)
+        {
+            try
+            {
+                var res = "";
+                //var isExit = ServiceContext.MPMAMORTISATIONHDRs.Any(x => x.MPMAMORTISATIONHDRID == item.MPMAMORTISATIONHDRID).ToString();
+                //if (isExit == "False")
+                //{
+                var itemREC = ServiceContext.MPMINFRUANGANHDRs.SingleOrDefault(x => x.IDTHRUANGAN == item.IDTHRUANGAN);
+
+
+                BeginTransaction();
+                ServiceContext.CommandTimeout = 3200;
+                
+                itemREC.text = item.text;
+                itemREC.description = item.description;
+                itemREC.startDate = item.startDate;
+                itemREC.endDate = item.endDate;
+                itemREC.MODIFDATE = DateTime.Now;
+                itemREC.MODIFBY = user;
+                //ServiceContext.MPMINFRUANGANHDRs.InsertOnSubmit(itemREC);
+                ServiceContext.SubmitChanges();
+                Commit();
+
+                res = "Berhasil Update Data";
+
+                return res;
+                //}
+                //else
+                //{
+                //    return "Gagal Insert Data";
+                //}
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
         //public void UpdateDataEntry(mpmaccpphinsentifhdr item, Guid idinsentif, string jabatan, string transaksi, string company, string departemen, string pasalpajakpph, string coapph, string deskripsipph, string coa, string deskripsicoa, string bankaccount, string deskripsi, int tahun, int bulan, string tanggalcon, string jurnalnumber, string jurnalvoucher, int status, string user)
         //{
         //    BeginTransaction();
