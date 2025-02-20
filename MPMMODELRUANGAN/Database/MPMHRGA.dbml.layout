@@ -8,5 +8,18 @@
         <elementListCompartment Id="d371cd25-3a6c-47f4-8ef8-4a74c53e2367" absoluteBounds="1.1399999999999997, 1.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="c0ff3139-4ab0-4ae6-bf76-59f41016e17f" absoluteBounds="4.5, 0.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/MPMHRGADataContext/MPMINFRUANGANDTL" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f6a0b897-5602-42ea-9ae2-8c7ba585b251" absoluteBounds="4.515, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.125 : 1.82774983723958); (4.5 : 1.82774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/MPMHRGADataContext/MPMINFRUANGANHDR/MPMINFRUANGANHDR_MPMINFRUANGANDTL" />
+      <nodes>
+        <classShapeMoniker Id="b4733b8e-4098-4c07-8998-170aea850881" />
+        <classShapeMoniker Id="c0ff3139-4ab0-4ae6-bf76-59f41016e17f" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

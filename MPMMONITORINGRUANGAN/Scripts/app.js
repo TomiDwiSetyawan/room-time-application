@@ -1,9 +1,13 @@
-﻿$(() => {
+﻿var dataPart
+let selectedValues = [];
+
+$(() => {
     async function loadScheduler() {
         try {
             const getData = await ListDataSch();
-           
-          
+            dataPart = await getNpkList()
+            //console.log("YEYEYYE",dataPart)
+
             const convertedData = getData.grid.map((item) => (
                 {
                     ...item,
@@ -43,7 +47,74 @@
                     var form = e.form;
                     form.beginUpdate();
 
-                    //form.option("colCountByScreen", { lg: 1, xs: 1 });
+                    console.log(e.appointmentData.IDTHRUANGAN)
+                    //if ( e.appointmentData.IDTHRUANGAN != undefined) {
+                    //    selectedValues = npkDataSource
+                    //}
+                    
+
+                    form.option("items", [
+                        {
+                            itemType: "group",
+                            caption: "Description Meeting",
+                            items: [
+                                {
+                                    dataField: "text",
+                                    editorType: "dxTextBox",
+                                    label: { text: "Title" }
+                                },
+                                {
+                                    dataField: "npk",
+                                    editorType: "dxTagBox",
+                                    label: { text: "Participant" },
+                                    editorOptions: {
+                                        readOnly: false,
+                                        disabled: false,
+                                        dataSource: dataPart,
+                                        valueExpr: "ID",
+                                        displayExpr: "NPK",
+                                        searchEnabled: true,
+                                        //showClearButton: true, 
+                                        onInitialized: function (e) {
+                                            selectedValues = npkDataSource
+                                            e.component.option("value", selectedValues); 
+                                        },
+                                        value: selectedValues,
+                                        onValueChanged: function (e) {
+                                            selectedValues = e.value.slice(); 
+                                            console.log("Updated values:", selectedValues); 
+                                        }
+                                    }
+                                },
+                                {
+                                    dataField: "startDate",
+                                    editorType: "dxDateBox",
+                                    label: { text: "Start Date" },
+                                    editorOptions: {
+                                        type: "datetime",
+                                        displayFormat: "M/d/yyyy, h:mm a"
+                                    }
+                                },
+                                {
+                                    dataField: "endDate",
+                                    editorType: "dxDateBox",
+                                    label: { text: "End Date" },
+                                    editorOptions: {
+                                        type: "datetime",
+                                        displayFormat: "M/d/yyyy, h:mm a"
+                                    }
+                                },
+                                {
+                                    dataField: "description",
+                                    editorType: "dxTextArea",
+                                    label: { text: "Description" }
+                                },
+                                
+                            ]
+                        }
+                    ]);
+
+                    form.option("colCountByScreen", { lg: 1, xs: 1 });
                     //form.getEditor("repeat").option("value", false); 
                     form.itemOption("mainGroup.allDay", "visible", true); 
                     form.itemOption("mainGroup.repeat", "visible", false);
@@ -54,10 +125,10 @@
                 },
                 onAppointmentAdded(e) {
                     //console.log(e)
-                    const { appointmentData: { allDay, description, endDate, startDate, text } } = e
+                    const { appointmentData: { allDay, npk, description, endDate, startDate, text } } = e
 
-                    const payload = { allDay, description, endDate, startDate, text }
-                    //console.log(payload)
+                    const payload = { allDay, npk, description, endDate, startDate, text }
+                    console.log(payload)
 
                     addDataSchedule(payload)
                     //showToast('Added', e.appointmentData.text, 'success');
@@ -80,7 +151,8 @@
 
                     deleteDataSchedule(payload)
                 },
-       
+
+               
             }).dxScheduler('instance');
 
             $('#allow-adding').dxCheckBox({
@@ -144,8 +216,7 @@ async function ListDataSch() {
         //$.LoadingOverlay('show')
         const url = `${base_url_home}app/listData`
         const result = await callAjax(url)
-       // $.LoadingOverlay('hide')
-
+        // $.LoadingOverlay('hide')
         return result
     } catch (e) {
         //$.LoadingOverlay('hide')
@@ -154,7 +225,24 @@ async function ListDataSch() {
 }
 
 
+const npkDataSource = [
+    '5433'
+];
 
+async function getNpkList() {
+    //listParticipant
+    try {
+        //$.LoadingOverlay('show')
+        const url = `${base_url_home}app/listParticipant`
+        const result = await callAjax(url)
+        // $.LoadingOverlay('hide')
+
+        return result.data
+    } catch (e) {
+        //$.LoadingOverlay('hide')
+        console.log(e)
+    }
+}
 
 
 async function addDataSchedule(payload) {

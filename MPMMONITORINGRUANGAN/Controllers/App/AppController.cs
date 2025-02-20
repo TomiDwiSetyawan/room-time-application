@@ -51,6 +51,33 @@ namespace MPMMONITORINGRUANGAN.Controllers.App
             }
         }
 
+        public JsonResult listParticipant()
+        {
+            try
+            {
+                var listPrt = Model.ListDataParticipant();
+
+                return Json(new
+                {
+                    status = 1,
+                    message = "",
+                    data = listPrt,
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    message = e.Message,
+                    code = "",
+                    data = "Error"
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         public JsonResult AddDataHeaderSchedule(MonitoringRU_REC payload)
         {
             try

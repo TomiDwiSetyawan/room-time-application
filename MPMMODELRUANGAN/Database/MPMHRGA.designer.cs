@@ -33,6 +33,9 @@ namespace MPMMODELRUANGAN.Database
     partial void InsertMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
     partial void UpdateMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
     partial void DeleteMPMINFRUANGANHDR(MPMINFRUANGANHDR instance);
+    partial void InsertMPMINFRUANGANDTL(MPMINFRUANGANDTL instance);
+    partial void UpdateMPMINFRUANGANDTL(MPMINFRUANGANDTL instance);
+    partial void DeleteMPMINFRUANGANDTL(MPMINFRUANGANDTL instance);
     #endregion
 		
 		public MPMHRGADataContext() :
@@ -72,6 +75,14 @@ namespace MPMMODELRUANGAN.Database
 				return this.GetTable<MPMINFRUANGANHDR>();
 			}
 		}
+		
+		public System.Data.Linq.Table<MPMINFRUANGANDTL> MPMINFRUANGANDTLs
+		{
+			get
+			{
+				return this.GetTable<MPMINFRUANGANDTL>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MPMINFRUANGANHDR")]
@@ -97,6 +108,8 @@ namespace MPMMODELRUANGAN.Database
 		private string _MODIFBY;
 		
 		private System.Nullable<System.DateTime> _MODIFDATE;
+		
+		private EntitySet<MPMINFRUANGANDTL> _MPMINFRUANGANDTLs;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -124,6 +137,7 @@ namespace MPMMODELRUANGAN.Database
 		
 		public MPMINFRUANGANHDR()
 		{
+			this._MPMINFRUANGANDTLs = new EntitySet<MPMINFRUANGANDTL>(new Action<MPMINFRUANGANDTL>(this.attach_MPMINFRUANGANDTLs), new Action<MPMINFRUANGANDTL>(this.detach_MPMINFRUANGANDTLs));
 			OnCreated();
 		}
 		
@@ -303,6 +317,278 @@ namespace MPMMODELRUANGAN.Database
 					this._MODIFDATE = value;
 					this.SendPropertyChanged("MODIFDATE");
 					this.OnMODIFDATEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MPMINFRUANGANHDR_MPMINFRUANGANDTL", Storage="_MPMINFRUANGANDTLs", ThisKey="IDTHRUANGAN", OtherKey="IDTHRUANGAN")]
+		public EntitySet<MPMINFRUANGANDTL> MPMINFRUANGANDTLs
+		{
+			get
+			{
+				return this._MPMINFRUANGANDTLs;
+			}
+			set
+			{
+				this._MPMINFRUANGANDTLs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MPMINFRUANGANDTLs(MPMINFRUANGANDTL entity)
+		{
+			this.SendPropertyChanging();
+			entity.MPMINFRUANGANHDR = this;
+		}
+		
+		private void detach_MPMINFRUANGANDTLs(MPMINFRUANGANDTL entity)
+		{
+			this.SendPropertyChanging();
+			entity.MPMINFRUANGANHDR = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MPMINFRUANGANDTL")]
+	public partial class MPMINFRUANGANDTL : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _IDTHRUANGAN;
+		
+		private System.Guid _IDPARTICIPANT;
+		
+		private string _NPK;
+		
+		private string _CREATEBY;
+		
+		private System.Nullable<System.DateTime> _CREATEDATE;
+		
+		private string _MODIFBY;
+		
+		private System.Nullable<System.DateTime> _MODIFDATE;
+		
+		private EntityRef<MPMINFRUANGANHDR> _MPMINFRUANGANHDR;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDTHRUANGANChanging(System.Guid value);
+    partial void OnIDTHRUANGANChanged();
+    partial void OnIDPARTICIPANTChanging(System.Guid value);
+    partial void OnIDPARTICIPANTChanged();
+    partial void OnNPKChanging(string value);
+    partial void OnNPKChanged();
+    partial void OnCREATEBYChanging(string value);
+    partial void OnCREATEBYChanged();
+    partial void OnCREATEDATEChanging(System.Nullable<System.DateTime> value);
+    partial void OnCREATEDATEChanged();
+    partial void OnMODIFBYChanging(string value);
+    partial void OnMODIFBYChanged();
+    partial void OnMODIFDATEChanging(System.Nullable<System.DateTime> value);
+    partial void OnMODIFDATEChanged();
+    #endregion
+		
+		public MPMINFRUANGANDTL()
+		{
+			this._MPMINFRUANGANHDR = default(EntityRef<MPMINFRUANGANHDR>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDTHRUANGAN", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid IDTHRUANGAN
+		{
+			get
+			{
+				return this._IDTHRUANGAN;
+			}
+			set
+			{
+				if ((this._IDTHRUANGAN != value))
+				{
+					if (this._MPMINFRUANGANHDR.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIDTHRUANGANChanging(value);
+					this.SendPropertyChanging();
+					this._IDTHRUANGAN = value;
+					this.SendPropertyChanged("IDTHRUANGAN");
+					this.OnIDTHRUANGANChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDPARTICIPANT", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid IDPARTICIPANT
+		{
+			get
+			{
+				return this._IDPARTICIPANT;
+			}
+			set
+			{
+				if ((this._IDPARTICIPANT != value))
+				{
+					this.OnIDPARTICIPANTChanging(value);
+					this.SendPropertyChanging();
+					this._IDPARTICIPANT = value;
+					this.SendPropertyChanged("IDPARTICIPANT");
+					this.OnIDPARTICIPANTChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NPK", DbType="VarChar(50)")]
+		public string NPK
+		{
+			get
+			{
+				return this._NPK;
+			}
+			set
+			{
+				if ((this._NPK != value))
+				{
+					this.OnNPKChanging(value);
+					this.SendPropertyChanging();
+					this._NPK = value;
+					this.SendPropertyChanged("NPK");
+					this.OnNPKChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEBY", DbType="VarChar(50)")]
+		public string CREATEBY
+		{
+			get
+			{
+				return this._CREATEBY;
+			}
+			set
+			{
+				if ((this._CREATEBY != value))
+				{
+					this.OnCREATEBYChanging(value);
+					this.SendPropertyChanging();
+					this._CREATEBY = value;
+					this.SendPropertyChanged("CREATEBY");
+					this.OnCREATEBYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CREATEDATE
+		{
+			get
+			{
+				return this._CREATEDATE;
+			}
+			set
+			{
+				if ((this._CREATEDATE != value))
+				{
+					this.OnCREATEDATEChanging(value);
+					this.SendPropertyChanging();
+					this._CREATEDATE = value;
+					this.SendPropertyChanged("CREATEDATE");
+					this.OnCREATEDATEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFBY", DbType="VarChar(50)")]
+		public string MODIFBY
+		{
+			get
+			{
+				return this._MODIFBY;
+			}
+			set
+			{
+				if ((this._MODIFBY != value))
+				{
+					this.OnMODIFBYChanging(value);
+					this.SendPropertyChanging();
+					this._MODIFBY = value;
+					this.SendPropertyChanged("MODIFBY");
+					this.OnMODIFBYChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> MODIFDATE
+		{
+			get
+			{
+				return this._MODIFDATE;
+			}
+			set
+			{
+				if ((this._MODIFDATE != value))
+				{
+					this.OnMODIFDATEChanging(value);
+					this.SendPropertyChanging();
+					this._MODIFDATE = value;
+					this.SendPropertyChanged("MODIFDATE");
+					this.OnMODIFDATEChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MPMINFRUANGANHDR_MPMINFRUANGANDTL", Storage="_MPMINFRUANGANHDR", ThisKey="IDTHRUANGAN", OtherKey="IDTHRUANGAN", IsForeignKey=true)]
+		public MPMINFRUANGANHDR MPMINFRUANGANHDR
+		{
+			get
+			{
+				return this._MPMINFRUANGANHDR.Entity;
+			}
+			set
+			{
+				MPMINFRUANGANHDR previousValue = this._MPMINFRUANGANHDR.Entity;
+				if (((previousValue != value) 
+							|| (this._MPMINFRUANGANHDR.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MPMINFRUANGANHDR.Entity = null;
+						previousValue.MPMINFRUANGANDTLs.Remove(this);
+					}
+					this._MPMINFRUANGANHDR.Entity = value;
+					if ((value != null))
+					{
+						value.MPMINFRUANGANDTLs.Add(this);
+						this._IDTHRUANGAN = value.IDTHRUANGAN;
+					}
+					else
+					{
+						this._IDTHRUANGAN = default(System.Guid);
+					}
+					this.SendPropertyChanged("MPMINFRUANGANHDR");
 				}
 			}
 		}

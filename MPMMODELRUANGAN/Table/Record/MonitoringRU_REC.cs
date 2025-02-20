@@ -17,5 +17,15 @@ namespace MPMMODELRUANGAN.Table.Record
         public string MODIFBY { get; set; }
         public DateTime MODIFDATE { get; set; }
         public string description { get; set; }
+        public List<string> npk { get; set; }
+    }
+
+    public class DataDetail_REC
+    {
+        public Guid IDTHRUANGAN { get; set; }
+        public Guid IDPARTICIPANT { get; set; }
+        public string NPK { get; set; }
+        public string NAMA { get; set; }
+        public string ID { get; set; }
     }
 }

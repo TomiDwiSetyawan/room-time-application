@@ -11,6 +11,19 @@
       <Column Name="CREATEDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="MODIFBY" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="MODIFDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="MPMINFRUANGANHDR_MPMINFRUANGANDTL" Member="MPMINFRUANGANDTLs" ThisKey="IDTHRUANGAN" OtherKey="IDTHRUANGAN" Type="MPMINFRUANGANDTL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MPMINFRUANGANDTL" Member="MPMINFRUANGANDTLs">
+    <Type Name="MPMINFRUANGANDTL">
+      <Column Name="IDTHRUANGAN" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="IDPARTICIPANT" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NPK" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATEBY" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CREATEDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MODIFBY" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MODIFDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="MPMINFRUANGANHDR_MPMINFRUANGANDTL" Member="MPMINFRUANGANHDR" ThisKey="IDTHRUANGAN" OtherKey="IDTHRUANGAN" Type="MPMINFRUANGANHDR" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

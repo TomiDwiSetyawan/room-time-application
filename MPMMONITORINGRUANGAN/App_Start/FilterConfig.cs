@@ -10,7 +10,7 @@ namespace MPMMONITORINGRUANGAN
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new MPMActionFilterAttribute());
-            filters.Add(new MPMAuthorizeAttribute("mpmmonitoringruangan")); //jangan lupa diganti
+            filters.Add(new MPMDevAuthorizeAttribute("mpmmonitoringruangan")); //jangan lupa diganti
         }
     }
 }

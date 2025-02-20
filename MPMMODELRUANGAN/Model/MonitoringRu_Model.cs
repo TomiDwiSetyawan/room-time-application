@@ -53,18 +53,45 @@ namespace MPMMODELRUANGAN.Model
             
         }
 
+        public List<DataDetail_REC> ListDataParticipant()
+        {
+            try
+            {
+
+                Context.CommandTimeout = 180;
+                var query = @" 
+                               SELECT DISTINCT NPK ID, NPK + ' ' +  UPPER(USER_NAME) NPK FROM MPMIT.dbo.MPM_USER
+                            ";
+                query = string.Format(query);
+                var result = Context.ExecuteQuery<DataDetail_REC>(query);
+                var hasil = result.ToList();
+                return hasil;
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
+
         public string insertDataScheduls(MonitoringRU_REC item, string user)
         {
             try
             {
+
+                //base(global::System.Configuration.ConfigurationManager.ConnectionStrings["MPMHRGA"].ConnectionString, mappingSource)
                 var res = "";
                 //var isExit = ServiceContext.MPMAMORTISATIONHDRs.Any(x => x.MPMAMORTISATIONHDRID == item.MPMAMORTISATIONHDRID).ToString();
                 //if (isExit == "False")
                 //{
                 BeginTransaction();
+                
+                Guid IDTHRUANGAN = Guid.NewGuid();
+
                 ServiceContext.CommandTimeout = 3200;
                 var itemREC = new MPMINFRUANGANHDR();
-                itemREC.IDTHRUANGAN = Guid.NewGuid();
+                itemREC.IDTHRUANGAN = IDTHRUANGAN;
                 itemREC.text = item.text;
                 itemREC.description = item.description;
                 itemREC.startDate = item.startDate;
@@ -74,6 +101,22 @@ namespace MPMMODELRUANGAN.Model
                 ServiceContext.MPMINFRUANGANHDRs.InsertOnSubmit(itemREC);
                 ServiceContext.SubmitChanges();
                 Commit();
+
+                foreach(var participan in item.npk)
+                {
+                    //{
+                    BeginTransaction();
+                    ServiceContext.CommandTimeout = 3200;
+                    var itemRECDTL = new MPMINFRUANGANDTL();
+                    itemRECDTL.IDTHRUANGAN = IDTHRUANGAN;
+                    itemRECDTL.IDPARTICIPANT = Guid.NewGuid();
+                    itemRECDTL.NPK = participan;
+                    itemRECDTL.CREATEDATE = DateTime.Now;
+                    itemRECDTL.CREATEBY = user;
+                    ServiceContext.MPMINFRUANGANDTLs.InsertOnSubmit(itemRECDTL);
+                    ServiceContext.SubmitChanges();
+                    Commit();
+                }
 
                 res = "Berhasil Insert Data";
 
