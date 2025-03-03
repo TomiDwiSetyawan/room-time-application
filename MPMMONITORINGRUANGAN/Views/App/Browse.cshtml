@@ -1,5 +1,5 @@
 ﻿
-<h2 style="padding-bottom:3%;color:darkorange">IT Room Monitoring</h2>
+<h2 style="padding-bottom:3%;color:darkorange">Monitoring Employee Meets</h2>
 
 <style>
     th, td {
@@ -25,12 +25,35 @@
     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/24.2.3/css/dx.material.blue.light.css" />
 
     @*<script src="js/dx.all.js"></script>
-    <script src="data.js"></script>
-    <script src="index.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css" />*@
+        <script src="data.js"></script>
+        <script src="index.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles.css" />*@
 </head>
+
+
+<div class="my-3">
+    <div class="row align-items-center">
+        <div class="col-1">
+            <span>Name :</span>
+        </div>
+        <div class="col-3">
+            <div id="gridCabang"></div>
+            <div id="cabang" hidden></div>
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-center">
+        <div class="col-1">
+        </div>
+        <div class="col-1">
+            <button type="button" onclick="filterGrid()" class="btn buttonFilter btn-primary">Filter</button>
+        </div>
+    </div>
+    <br />
+</div>
+
 <body class="dx-viewport">
-  
+
     <div class="demo-container">
         <div id="scheduler"></div>
     </div>

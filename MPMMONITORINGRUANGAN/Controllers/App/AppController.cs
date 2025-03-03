@@ -24,11 +24,11 @@ namespace MPMMONITORINGRUANGAN.Controllers.App
             return View();
         }
 
-        public JsonResult listData()
+        public JsonResult listData(string npk)
         {
             try
             {
-                var listgrid = Model.ListDataSchedule();
+                var listgrid = Model.ListDataSchedule(npk);
 
                 return Json(new
                 {
@@ -36,6 +36,32 @@ namespace MPMMONITORINGRUANGAN.Controllers.App
                     message = "",
                     data = "Data Called!",
                     grid = listgrid
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    status = 0,
+                    message = e.Message,
+                    code = "",
+                    data = "Error"
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult listDTL(string IDTHRUANGAN)
+        {
+            try
+            {
+                var listPrt = Model.ListDataDTL(IDTHRUANGAN);
+
+                return Json(new
+                {
+                    status = 1,
+                    message = "",
+                    data = listPrt,
 
                 }, JsonRequestBehavior.AllowGet);
             }

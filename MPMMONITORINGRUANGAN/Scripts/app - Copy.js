@@ -2,34 +2,11 @@
 let selectedValues = [];
 var IDTHRUANGAN;
 var npkDataSource = [];
-const gridCabang = $("#gridCabang")
-
-var npk = "";
-
-
-async function filterGrid() {
-    //console.log(cabang = $('#cabang').text());
-    npk = $('#cabang').text();
-    console.log(npk)
-    ListDataSch(npk)
-}
-
-//var cabang = $('#cabang').text();
-//var jabatan = $('#jabatan').text();
-
-//const data = await getDataMaster(jabatan, cabang);
 
 $(() => {
-  
-    $('#cabang').on('change', async function () {
-        await filterGrid(); 
-        await ListDataSch(npk); 
-    });
-
     async function loadScheduler() {
         try {
-            renderCabang();
-            const getData = await ListDataSch(npk);
+            const getData = await ListDataSch();
             dataPart = await getNpkList()
             //console.log("YEYEYYE",dataPart)
 
@@ -80,62 +57,53 @@ $(() => {
                     form.option("items", [
                         {
                             itemType: "group",
-                            caption: "Detail Meeting",
+                            caption: "Description Meeting",
                             items: [
-                                {
-                                    //dataField: "USERNAME",
-                                    //editorType: "dxTextBox",
-                                    //label: { text: "Name Employee" }
-                                    //{
-                                        dataField: "npk",
-                                        editorType: "dxTagBox",
-                                        label: { text: "Name Employee" },
-                                        editorOptions: {
-                                            readOnly: false,
-                                            disabled: false,
-                                            dataSource: dataPart,
-                                            valueExpr: "ID",
-                                            displayExpr: "NPK",
-                                            searchEnabled: true,
-                                            //showClearButton: true, 
-                                            onInitialized: async function (e) {
-                                                if (IDTHRUANGAN !== undefined) {
-                                                    try {
-                                                        let result = await ListDataDTL(IDTHRUANGAN);
-                                                        npkDataSource = result.data.map(item => item.ID);
-                                                        console.log("npkDataSource setelah async:", npkDataSource);
-                                                        selectedValues = npkDataSource
-                                                        selectedValues = npkDataSource.length > 0 ? npkDataSource : [];
-                                                        e.component.option("value", selectedValues);
-                                                    } catch (error) {
-                                                        console.error("Gagal mengambil data:", error);
-                                                    }
-                                                } else {
-                                                    npkDataSource = [];
-                                                    e.component.option("value", npkDataSource);
-                                                }
-                                            },
-                                            value: selectedValues,
-                                            onValueChanged: function (e) {
-                                                console.log(e.value)
-                                                if (IDTHRUANGAN !== undefined) {
-                                                    try {
-                                                        selectedValues = e.value.slice();
-                                                    } catch (error) {
-                                                        console.error("Gagal mengambil data:", error);
-                                                    }
-                                                } 
-                                                //selectedValues = e.value.slice();
-                                                selectedValues = e.value;
-                                                console.log("Updated values:", selectedValues); 
-                                            }
-                                        }
-                                    },
-
                                 {
                                     dataField: "text",
                                     editorType: "dxTextBox",
-                                    label: { text: "Meeting Room Name" }
+                                    label: { text: "Title" }
+                                },
+                                {
+                                    dataField: "npk",
+                                    editorType: "dxTagBox",
+                                    label: { text: "Participant" },
+                                    editorOptions: {
+                                        readOnly: false,
+                                        disabled: false,
+                                        dataSource: dataPart,
+                                        valueExpr: "ID",
+                                        displayExpr: "NPK",
+                                        searchEnabled: true,
+                                        //showClearButton: true, 
+                                        onInitialized: async function (e) {
+                                            if (IDTHRUANGAN !== undefined) {
+                                                try {
+                                                    let result = await ListDataDTL(IDTHRUANGAN);
+                                                    npkDataSource = result.data.map(item => item.ID);
+                                                    console.log("npkDataSource setelah async:", npkDataSource);
+
+                                                    e.component.option("value", npkDataSource);
+                                                } catch (error) {
+                                                    console.error("Gagal mengambil data:", error);
+                                                }
+                                            } else {
+                                                npkDataSource = [];
+                                                e.component.option("value", npkDataSource);
+                                            }
+                                        },
+                                        value: selectedValues,
+                                        onValueChanged: function (e) {
+                                            if (IDTHRUANGAN !== undefined) {
+                                                try {
+                                                    selectedValues = e.value.slice();
+                                                } catch (error) {
+                                                    console.error("Gagal mengambil data:", error);
+                                                }
+                                            } 
+                                            console.log("Updated values:", selectedValues); 
+                                        }
+                                    }
                                 },
                                 {
                                     dataField: "startDate",
@@ -185,11 +153,11 @@ $(() => {
                     //showToast('Added', e.appointmentData.text, 'success');
                 },
                 onAppointmentUpdated(e) {
-                    //console.log(e)
-                    const { appointmentData: { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text } } = e
+                    console.log(e)
+                    const { appointmentData: { IDTHRUANGAN, allDay, description, endDate, startDate, text } } = e
 
-                    const payload = { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text }
-                    console.log(payload)
+                    const payload = { IDTHRUANGAN, allDay, description, endDate, startDate, text }
+                    //console.log(payload)
 
                     updateDataSchedule(payload)
                 },
@@ -262,10 +230,10 @@ function showToast(event, value, type) {
     DevExpress.ui.notify(`${event} "${value}" task`, type, 800);
 }
 
-async function ListDataSch(npk) {
+async function ListDataSch() {
     try {
         //$.LoadingOverlay('show')
-        const url = `${base_url_home}app/listData?&npk=` + npk
+        const url = `${base_url_home}app/listData`
         const result = await callAjax(url)
         // $.LoadingOverlay('hide')
         return result
@@ -311,39 +279,23 @@ async function addDataSchedule(payload) {
             }).then((result) => {
 
                 if (result.isConfirmed) {
-                    location.reload();
+                    renderHeaderGrid([])
                 }
             });
         }
         else {
-            if (result.result == 'F') {
-                Swal.fire({
-                    title: 'Informasi',
-                    text: "Ruangan sudah di pakai!.",
-                    icon: 'warning',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
+          Swal.fire({
+            title: 'Informasi',
+            text: "Gagal Insert !.",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          }).then((result) => {
 
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+            if (result.isConfirmed) {
+              renderGridMasterSetting();
             }
-            if (result.result == 'F2') {
-                Swal.fire({
-                    title: 'Informasi',
-                    text: "Karyawan sudah ada meeting di jam itu!.",
-                    icon: 'warning',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
-            }
+          });
         }
     } catch (e) {
         throw (e)
@@ -408,34 +360,18 @@ async function updateDataSchedule(payload) {
             });
         }
         else {
-            if (result.result == 'F') {
-                Swal.fire({
-                    title: 'Informasi',
-                    text: "Ruangan sudah di pakai!.",
-                    icon: 'warning',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
+            Swal.fire({
+                title: 'Informasi',
+                text: "Gagal update !.",
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
 
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
-            }
-            if (result.result == 'F2') {
-                Swal.fire({
-                    title: 'Informasi',
-                    text: "Karyawan sudah ada meeting di jam itu!.",
-                    icon: 'warning',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
-            }
+                if (result.isConfirmed) {
+                    renderGridMasterSetting();
+                }
+            });
         }
     } catch (e) {
         throw (e)
@@ -454,52 +390,4 @@ async function ListDataDTL(IDTHRUANGAN) {
         //$.LoadingOverlay('hide')
         console.log(e)
     }
-}
-
-async function renderCabang() {
-    const picData = await getNpkList()
-    console.log(picData)
-    const dataSource = new DevExpress.data.ArrayStore({
-        key: "ID",
-        data: picData
-    });
-
-    $('#gridCabang').dxDropDownBox({
-        //value: '',
-        dataSource: dataSource,
-        valueExpr: "ID",
-        placeholder: '-Select-',
-        displayExpr: 'NPK',
-        contentTemplate(e) {
-            const v = e.component.option('value');
-            const $dataGridcb = $('<div>').dxDataGrid({
-                dataSource: e.component.getDataSource(),
-                columns: ['NPK'],
-                hoverStateEnabled: true,
-                paging: { enabled: true, pageSize: 10 },
-                filterRow: { visible: true },
-                scrolling: { mode: 'infinite' },
-                height: 400,
-                selection: { mode: 'single' },
-                selectedRowKeys: v,
-                onSelectionChanged(selectedItems) {
-                    const keys = selectedItems.selectedRowKeys;
-                    e.component.option('value', keys);
-                    document.getElementById("cabang").innerHTML = keys
-
-                    $("#gridCabang").dxDropDownBox("instance").close();
-
-                }
-            });
-
-            dataGridcb = $dataGridcb.dxDataGrid('instance');
-
-            e.component.on('valueChanged', (args) => {
-                const { value } = args;
-                dataGridcb.selectRows(value, false);
-
-            });
-            return $dataGridcb;
-        }
-    });
 }

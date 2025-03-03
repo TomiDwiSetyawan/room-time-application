@@ -17,6 +17,7 @@ namespace MPMMODELRUANGAN.Table.Record
         public string MODIFBY { get; set; }
         public DateTime MODIFDATE { get; set; }
         public string description { get; set; }
+        public string USERNAME { get; set; }
         public List<string> npk { get; set; }
     }
 
