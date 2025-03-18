@@ -5,13 +5,15 @@ var npkDataSource = [];
 const gridCabang = $("#gridCabang")
 
 var npk = "";
-
+var getData;
 
 async function filterGrid() {
     //console.log(cabang = $('#cabang').text());
     npk = $('#cabang').text();
     console.log(npk)
-    ListDataSch(npk)
+    ListDataSch(npk);
+    console.log(getData)
+    loadScheduler();
 }
 
 //var cabang = $('#cabang').text();
@@ -20,243 +22,239 @@ async function filterGrid() {
 //const data = await getDataMaster(jabatan, cabang);
 
 $(() => {
-  
-    $('#cabang').on('change', async function () {
-        await filterGrid(); 
-        await ListDataSch(npk); 
-    });
+    loadScheduler();
+    filterGrid()
+});
 
-    async function loadScheduler() {
-        try {
-            renderCabang();
-            const getData = await ListDataSch(npk);
-            dataPart = await getNpkList()
-            //console.log("YEYEYYE",dataPart)
 
-            const convertedData = getData.grid.map((item) => (
-                {
-                    ...item,
-                    startDate: formatDateTime(item.startDate),
-                    endDate: formatDateTime(item.endDate)
+async function loadScheduler() {
+    try {
+        renderCabang();
+        await ListDataSch(npk);
+        dataPart = await getNpkList()
+        console.log("YEYEYYE", getData)
 
-                }))
+        const convertedData = getData.grid.map((item) => (
+            {
+                ...item,
+                startDate: formatDateTime(item.startDate),
+                endDate: formatDateTime(item.endDate)
 
-            //console.log('Getdata', convertedData)
+            }))
 
-            //$('#scheduler').dxScheduler({
-            //    timeZone: 'Asia/Jakarta',
-            //    dataSource: convertedData,
-            //    views: ['day', 'week', 'workWeek', 'month'],
-            //    currentView: 'week',
-            //    startDayHour: 8,
-            //    height: 730,
-            //    showCurrentTimeIndicator: false,
-            //});
+        console.log('Getdata', convertedData)
 
-            const scheduler = $('#scheduler').dxScheduler({
-                timeZone: 'Asia/Jakarta',
-                dataSource: convertedData,
-                views: ['day', 'week', 'workWeek', 'month'],
-                currentView: 'week',
-                startDayHour: 8,
-                showCurrentTimeIndicator: false,
-                height: 730,
-                editing: {
-                    allowAdding: true,
-                    allowDeleting: true,
-                    allowUpdating: true,
-                    allowResizing: true,
-                    allowDragging: true,
-                },
-                onAppointmentFormOpening(e) {
-                    
-                    //console.log(e.appointmentData.IDTHRUANGAN)
-                    IDTHRUANGAN = e.appointmentData.IDTHRUANGAN;
+        //$('#scheduler').dxScheduler({
+        //    timeZone: 'Asia/Jakarta',
+        //    dataSource: convertedData,
+        //    views: ['day', 'week', 'workWeek', 'month'],
+        //    currentView: 'week',
+        //    startDayHour: 8,
+        //    height: 730,
+        //    showCurrentTimeIndicator: false,
+        //});
 
-                    console.log(IDTHRUANGAN)
-                    var form = e.form;
-                    form.beginUpdate();
+        const scheduler = $('#scheduler').dxScheduler({
+            timeZone: 'Asia/Jakarta',
+            dataSource: convertedData,
+            views: ['day', 'week', 'workWeek', 'month'],
+            currentView: 'week',
+            startDayHour: 8,
+            showCurrentTimeIndicator: false,
+            height: 730,
+            editing: {
+                allowAdding: true,
+                allowDeleting: true,
+                allowUpdating: true,
+                allowResizing: true,
+                allowDragging: true,
+            },
+            onAppointmentFormOpening(e) {
 
-                    form.option("items", [
-                        {
-                            itemType: "group",
-                            caption: "Detail Meeting",
-                            items: [
-                                {
-                                    //dataField: "USERNAME",
-                                    //editorType: "dxTextBox",
-                                    //label: { text: "Name Employee" }
-                                    //{
-                                        dataField: "npk",
-                                        editorType: "dxTagBox",
-                                        label: { text: "Name Employee" },
-                                        editorOptions: {
-                                            readOnly: false,
-                                            disabled: false,
-                                            dataSource: dataPart,
-                                            valueExpr: "ID",
-                                            displayExpr: "NPK",
-                                            searchEnabled: true,
-                                            //showClearButton: true, 
-                                            onInitialized: async function (e) {
-                                                if (IDTHRUANGAN !== undefined) {
-                                                    try {
-                                                        let result = await ListDataDTL(IDTHRUANGAN);
-                                                        npkDataSource = result.data.map(item => item.ID);
-                                                        console.log("npkDataSource setelah async:", npkDataSource);
-                                                        selectedValues = npkDataSource
-                                                        selectedValues = npkDataSource.length > 0 ? npkDataSource : [];
-                                                        e.component.option("value", selectedValues);
-                                                    } catch (error) {
-                                                        console.error("Gagal mengambil data:", error);
-                                                    }
-                                                } else {
-                                                    npkDataSource = [];
-                                                    e.component.option("value", npkDataSource);
-                                                }
-                                            },
-                                            value: selectedValues,
-                                            onValueChanged: function (e) {
-                                                console.log(e.value)
-                                                if (IDTHRUANGAN !== undefined) {
-                                                    try {
-                                                        selectedValues = e.value.slice();
-                                                    } catch (error) {
-                                                        console.error("Gagal mengambil data:", error);
-                                                    }
-                                                } 
-                                                //selectedValues = e.value.slice();
-                                                selectedValues = e.value;
-                                                console.log("Updated values:", selectedValues); 
+                //console.log(e.appointmentData.IDTHRUANGAN)
+                IDTHRUANGAN = e.appointmentData.IDTHRUANGAN;
+
+                //console.log(IDTHRUANGAN)
+                var form = e.form;
+                form.beginUpdate();
+
+                form.option("items", [
+                    {
+                        itemType: "group",
+                        caption: "Detail Meeting",
+                        items: [
+                            {
+                                //dataField: "USERNAME",
+                                //editorType: "dxTextBox",
+                                //label: { text: "Name Employee" }
+                                //{
+                                dataField: "npk",
+                                editorType: "dxTagBox",
+                                label: { text: "Name Employee" },
+                                editorOptions: {
+                                    readOnly: false,
+                                    disabled: false,
+                                    dataSource: dataPart,
+                                    valueExpr: "ID",
+                                    displayExpr: "NPK",
+                                    searchEnabled: true,
+                                    //showClearButton: true, 
+                                    onInitialized: async function (e) {
+                                        if (IDTHRUANGAN !== undefined) {
+                                            try {
+                                                let result = await ListDataDTL(IDTHRUANGAN);
+                                                npkDataSource = result.data.map(item => item.ID);
+                                                //console.log("npkDataSource setelah async:", npkDataSource);
+                                                selectedValues = npkDataSource
+                                                selectedValues = npkDataSource.length > 0 ? npkDataSource : [];
+                                                e.component.option("value", selectedValues);
+                                            } catch (error) {
+                                                //console.error("Gagal mengambil data:", error);
                                             }
+                                        } else {
+                                            npkDataSource = [];
+                                            e.component.option("value", npkDataSource);
                                         }
                                     },
-
-                                {
-                                    dataField: "text",
-                                    editorType: "dxTextBox",
-                                    label: { text: "Meeting Room Name" }
-                                },
-                                {
-                                    dataField: "startDate",
-                                    editorType: "dxDateBox",
-                                    label: { text: "Start Date" },
-                                    editorOptions: {
-                                        type: "datetime",
-                                        displayFormat: "M/d/yyyy, h:mm a"
+                                    value: selectedValues,
+                                    onValueChanged: function (e) {
+                                        //console.log(e.value)
+                                        if (IDTHRUANGAN !== undefined) {
+                                            try {
+                                                selectedValues = e.value.slice();
+                                            } catch (error) {
+                                                console.error("Gagal mengambil data:", error);
+                                            }
+                                        }
+                                        //selectedValues = e.value.slice();
+                                        selectedValues = e.value;
+                                        //console.log("Updated values:", selectedValues); 
                                     }
-                                },
-                                {
-                                    dataField: "endDate",
-                                    editorType: "dxDateBox",
-                                    label: { text: "End Date" },
-                                    editorOptions: {
-                                        type: "datetime",
-                                        displayFormat: "M/d/yyyy, h:mm a"
-                                    }
-                                },
-                                {
-                                    dataField: "description",
-                                    editorType: "dxTextArea",
-                                    label: { text: "Description" }
-                                },
-                                
-                            ]
-                        }
-                    ]);
+                                }
+                            },
 
-                    form.option("colCountByScreen", { lg: 1, xs: 1 });
-                    //form.getEditor("repeat").option("value", false); 
-                    form.itemOption("mainGroup.allDay", "visible", true); 
-                    form.itemOption("mainGroup.repeat", "visible", false);
-                    //form.itemOption("mainGroup.description", "disabled", true);
-                    form.itemOption('mainGroup.Text', 'cssClass', 'MyCssClass'); // add custom css class to Text
+                            {
+                                dataField: "text",
+                                editorType: "dxTextBox",
+                                label: { text: "Meeting Room Name" }
+                            },
+                            {
+                                dataField: "startDate",
+                                editorType: "dxDateBox",
+                                label: { text: "Start Date" },
+                                editorOptions: {
+                                    type: "datetime",
+                                    displayFormat: "M/d/yyyy, h:mm a"
+                                }
+                            },
+                            {
+                                dataField: "endDate",
+                                editorType: "dxDateBox",
+                                label: { text: "End Date" },
+                                editorOptions: {
+                                    type: "datetime",
+                                    displayFormat: "M/d/yyyy, h:mm a"
+                                }
+                            },
+                            {
+                                dataField: "description",
+                                editorType: "dxTextArea",
+                                label: { text: "Description" }
+                            },
 
-                    form.endUpdate();
-                },
-                onAppointmentAdded(e) {
-                    //console.log(e)
-                    const { appointmentData: { allDay, npk, description, endDate, startDate, text } } = e
+                        ]
+                    }
+                ]);
 
-                    const payload = { allDay, npk, description, endDate, startDate, text }
-                    console.log(payload)
+                form.option("colCountByScreen", { lg: 1, xs: 1 });
+                //form.getEditor("repeat").option("value", false); 
+                form.itemOption("mainGroup.allDay", "visible", true);
+                form.itemOption("mainGroup.repeat", "visible", false);
+                //form.itemOption("mainGroup.description", "disabled", true);
+                form.itemOption('mainGroup.Text', 'cssClass', 'MyCssClass'); // add custom css class to Text
 
-                    addDataSchedule(payload)
-                    //showToast('Added', e.appointmentData.text, 'success');
-                },
-                onAppointmentUpdated(e) {
-                    //console.log(e)
-                    const { appointmentData: { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text } } = e
+                form.endUpdate();
+            },
+            onAppointmentAdded(e) {
+                //console.log(e)
+                const { appointmentData: { allDay, npk, description, endDate, startDate, text } } = e
 
-                    const payload = { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text }
-                    console.log(payload)
+                const payload = { allDay, npk, description, endDate, startDate, text }
+                //console.log(payload)
 
-                    updateDataSchedule(payload)
-                },
-                onAppointmentDeleted(e) {
-                    console.log(e)
-                    const { appointmentData: { IDTHRUANGAN, description, endDate, startDate, text } } = e
+                addDataSchedule(payload)
+                //showToast('Added', e.appointmentData.text, 'success');
+            },
+            onAppointmentUpdated(e) {
+                //console.log(e)
+                const { appointmentData: { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text } } = e
 
-                    const payload = { IDTHRUANGAN, description, endDate, startDate, text }
-                    //console.log(payload)
+                const payload = { IDTHRUANGAN, npk, allDay, description, endDate, startDate, text }
+                //console.log(payload)
 
-                    deleteDataSchedule(payload)
-                },
+                updateDataSchedule(payload)
+            },
+            onAppointmentDeleted(e) {
+                //console.log(e)
+                const { appointmentData: { IDTHRUANGAN, description, endDate, startDate, text } } = e
 
-               
-            }).dxScheduler('instance');
+                const payload = { IDTHRUANGAN, description, endDate, startDate, text }
+                //console.log(payload)
 
-            $('#allow-adding').dxCheckBox({
-                text: 'Allow adding',
-                value: true,
-                onValueChanged(e) {
-                    scheduler.option('editing.allowAdding', e.value);
-                },
-            });
-
-            $('#allow-deleting').dxCheckBox({
-                text: 'Allow deleting',
-                value: true,
-                onValueChanged(e) {
-                    scheduler.option('editing.allowDeleting', e.value);
-                },
-            });
-
-            $('#allow-updating').dxCheckBox({
-                text: 'Allow updating',
-                value: true,
-                onValueChanged(e) {
-                    scheduler.option('editing.allowUpdating', e.value);
-                    dragging.option('disabled', !e.value);
-                    resizing.option('disabled', !e.value);
-                },
-            });
+                deleteDataSchedule(payload)
+            },
 
 
-            const resizing = $('#allow-resizing').dxCheckBox({
-                text: 'Allow resizing',
-                value: false,
-                onValueChanged(e) {
-                    scheduler.option('editing.allowResizing', e.value);
-                },
-            }).dxCheckBox('instance');
+        }).dxScheduler('instance');
 
-            const dragging = $('#allow-dragging').dxCheckBox({
-                text: 'Allow dragging',
-                value: false,
-                onValueChanged(e) {
-                    scheduler.option('editing.allowDragging', e.value);
-                },
-            }).dxCheckBox('instance');
-        
+        $('#allow-adding').dxCheckBox({
+            text: 'Allow adding',
+            value: true,
+            onValueChanged(e) {
+                scheduler.option('editing.allowAdding', e.value);
+            },
+        });
 
-        } catch (error) {
-            console.error("Error loading scheduler data:", error);
-        }
+        $('#allow-deleting').dxCheckBox({
+            text: 'Allow deleting',
+            value: true,
+            onValueChanged(e) {
+                scheduler.option('editing.allowDeleting', e.value);
+            },
+        });
+
+        $('#allow-updating').dxCheckBox({
+            text: 'Allow updating',
+            value: true,
+            onValueChanged(e) {
+                scheduler.option('editing.allowUpdating', e.value);
+                dragging.option('disabled', !e.value);
+                resizing.option('disabled', !e.value);
+            },
+        });
+
+
+        const resizing = $('#allow-resizing').dxCheckBox({
+            text: 'Allow resizing',
+            value: false,
+            onValueChanged(e) {
+                scheduler.option('editing.allowResizing', e.value);
+            },
+        }).dxCheckBox('instance');
+
+        const dragging = $('#allow-dragging').dxCheckBox({
+            text: 'Allow dragging',
+            value: false,
+            onValueChanged(e) {
+                scheduler.option('editing.allowDragging', e.value);
+            },
+        }).dxCheckBox('instance');
+
+
+    } catch (error) {
+        console.error("Error loading scheduler data:", error);
     }
-
-    loadScheduler(); 
-});
+}
 
 function showToast(event, value, type) {
     DevExpress.ui.notify(`${event} "${value}" task`, type, 800);
@@ -268,6 +266,8 @@ async function ListDataSch(npk) {
         const url = `${base_url_home}app/listData?&npk=` + npk
         const result = await callAjax(url)
         // $.LoadingOverlay('hide')
+        //console.log("mony", result)
+        getData = result;
         return result
     } catch (e) {
         //$.LoadingOverlay('hide')
@@ -300,7 +300,7 @@ async function addDataSchedule(payload) {
     try {
         const url = `${base_url_home}app/AddDataHeaderSchedule`
         const result = await callAjax(url, payload)
-        console.log(result)
+        //console.log(result)
         if (result.result == 'Berhasil Insert Data') {
             Swal.fire({
                 title: 'Informasi',
@@ -458,7 +458,7 @@ async function ListDataDTL(IDTHRUANGAN) {
 
 async function renderCabang() {
     const picData = await getNpkList()
-    console.log(picData)
+    //console.log(picData)
     const dataSource = new DevExpress.data.ArrayStore({
         key: "ID",
         data: picData

@@ -26,7 +26,7 @@ namespace MPMMODELRUANGAN.Model
         public List<MonitoringRU_REC> ListDataSchedule(string npk)
         {
            
-           if(npk == "") {
+           if(npk != "") {
                 try
                 {
 
@@ -34,19 +34,18 @@ namespace MPMMODELRUANGAN.Model
                     var query = $@" 
                                 
                                     SELECT 
-	                                    IDTHRUANGAN,
-                                        text,
-                                        description,
-                                        startDate,
-                                        endDate,
-                                        STUFF((
-                                            SELECT ', ' + CAST(b2.NPK AS VARCHAR)
-                                            FROM MPMHRGA.dbo.MPMINFRUANGANDTL b2
-                                            WHERE b2.IDTHRUANGAN = a.IDTHRUANGAN 
-		                                    and NPK = '{npk}'
-                                            FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 2, '') AS NPK
+                                        a.IDTHRUANGAN,
+                                        a.text,
+                                        a.description,
+                                        a.startDate,
+                                        a.endDate
                                     FROM MPMHRGA.dbo.MPMINFRUANGANHDR a
-                                    GROUP BY text, description, startDate, endDate, a.IDTHRUANGAN
+                                    WHERE EXISTS (
+                                        SELECT 1 FROM MPMHRGA.dbo.MPMINFRUANGANDTL b 
+                                        WHERE b.IDTHRUANGAN = a.IDTHRUANGAN 
+                                        AND b.NPK = '{npk}'
+                                    )
+                                    GROUP BY a.IDTHRUANGAN, a.text, a.description, a.startDate, a.endDate;
 
 
 
